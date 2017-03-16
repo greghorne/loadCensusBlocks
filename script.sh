@@ -1,39 +1,3 @@
-eval "sudo aptitude purge ruby1.9.1”
-
-sudo apt-get update
-sudo apt-get install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev -y
-sudo apt-get install git -y
-
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.profile
-echo 'eval "$(rbenv init -)"' >> ~/.profile
-
-source ~/.profile
-
-git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-exit
-
-rbenv install 2.4.0
-rbenv global 2.4.0
-rbenv rehash
-
-echo "gem: --no-document" > ~/.gemrc
-eval "gem install bundler”
-
-eval "gem install rails”
-
-eval "rbenv rehash”
-sudo apt-get install default-jre -y
-
-sudo apt-get install nodejs -y
-
-
-
-
-
-
-
 #!/bin/bash 
 
 
@@ -57,6 +21,7 @@ loadArray "shplist.txt"     # list of input files into array
 
 n=0
 
+# read in PG password from env variable
 echo "export PGPASSWORD=gisDB"
 
 for state in "${myArray[@]}"
@@ -84,6 +49,7 @@ do
 	eval "rm ${state}.zip"
 
 	# execute command that actually runs the sql insert commands
+	# example: server=192.168.1.72 user=gisdb
 	eval "psql -h 192.168.1.72 -d gisdb -U gisdb -f shapeinsert.sql"
 	#eval "psql -h giscensus.chxlrrsmaz1x.us-west-2.rds.amazonaws.com -U mastergis -d census -f shapeinsert.sql"
 
