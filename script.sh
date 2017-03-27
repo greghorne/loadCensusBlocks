@@ -1,10 +1,5 @@
 #!/bin/bash 
 
-
-#
-# curl -o tl_2010_40_tabblock10.zip 
-# ftp://ftp2.census.gov/geo/tiger/TIGER2010/TABBLOCK/2010/tl_2010_40_tabblock10.zip
-
 declare -a myArray
 
 loadArray() {
