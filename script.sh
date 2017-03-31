@@ -2,6 +2,7 @@
 
 declare -a myArray
 
+# function to read in input file (shplist.txt)
 loadArray() {
 	n=0
 	while read line
@@ -12,12 +13,12 @@ loadArray() {
 }
 
 
-loadArray "shplist.txt"     # list of input files into array
+loadArray "shplist.txt"     # read into an array 50 states and D.C.
 
 n=0
 
-# read in PG password from env variable
-echo "export PGPASSWORD=gisDB"
+# PG password; shp2pgsql will look for environment variable PGPASSWORD when executed
+echo "export PGPASSWORD=gisPassword"
 
 for state in "${myArray[@]}"
 do
@@ -36,6 +37,8 @@ do
 		eval "shp2pgsql  -a -s 4269 ${state} tabblock_2010_pophu > shapeinsert.sql"
 	fi
 
+	# the following 'rm' command are optional but consider that the files
+	# for 50 states can be quite large to retain
 	eval "rm ${state}.dbf"
 	eval "rm ${state}.prj"
 	eval "rm ${state}.shp"
@@ -44,23 +47,20 @@ do
 	eval "rm ${state}.zip"
 
 	# execute command that actually runs the sql insert commands
-	# example: server=192.168.1.72 user=gisdb
+	# i.e in this case db server=192.168.1.72 user=gisdb
 	eval "psql -h 192.168.1.72 -d gisdb -U gisdb -f shapeinsert.sql"
-	#eval "psql -h giscensus.chxlrrsmaz1x.us-west-2.rds.amazonaws.com -U mastergis -d census -f shapeinsert.sql"
+	
+	# an example if PG resided on AWS
+	# eval "psql -h giscensus.chxlrrsmaz1x.us-west-2.rds.amazonaws.com -U mastergis -d census -f shapeinsert.sql"
 
+	# optional 'rm' but consider the file could be quite large to retain
 	eval "rm shapeinsert.sql"
-
-	# if [ $n == 1 ]; then
-	# 	eval "date +%Y%m%d%H%M%S"
-	# 	exit
-	# fi
-
 
 	((n++))
 	echo ""
 
 done
 
+echo "==========================================="
 eval "date +%Y%m%d%H%M%S"
-
 echo "================= finihed ================="
