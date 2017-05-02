@@ -6,7 +6,7 @@
 - PostgreSQL & PostGIS extension should already be installed.
 - Script will need a username/password who can CRUD tables in the given DB.
 - 11,078,297 Census Blocks (2010) records.
-
+</br>
 - Note that about half of the census blocks are where (population = 0 AND housing = 0).
 - Also note that there are blocks where (housing > 0 AND population = 0).
 
