@@ -25,7 +25,7 @@ do
 	echo "$state"	# print the file name for a given state
 
 	# download the file from the Census Bureau
-	eval "curl -o ${state}.zip http://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/${state}.zip"
+	eval "curl -o ${state}.zip https://www2.census.gov/geo/tiger/TIGER2010BLKPOPHU/${state}.zip"
 	eval "unzip ${state}.zip"
 
 	# create shapefile.sql which contains insert statements
